@@ -6,7 +6,7 @@
 ### What are you here for?
 If you're new to anywheel or want instructions on how to use the app, see the [guide](first-steps.pdf) we've prepared.
 
-Otherwise, you're probably here for the scripts. If you can run python scripts in your machine, it's most convenient to use the [.py script](anywheel.py), the instructions for which are [here](#python). The alternative is to use the notebook, which you can either [download](anywheel.ipynb) or run from [Google Colab](https://colab.research.google.com/drive/1m0o6RYJmMoLG2Mzl7RHIGr0YojsdAke9). The notebook itself has usage instructions, but if you need more help with you can download the [step-by-step instructions](ipynb-instructions.pdf)
+Otherwise, you're probably here for the scripts. If you can run python scripts in your machine, it's most convenient to use the [.py script](anywheel.py), the instructions for which are [here](#python). The alternative is to use the notebook, which you can either [download](anywheel.ipynb) or run from [Google Colab](https://colab.research.google.com/drive/1m0o6RYJmMoLG2Mzl7RHIGr0YojsdAke9). The notebook itself has usage instructions, but if you need more help with you can look at the [step-by-step instructions](ipynb-instructions.pdf)
 
 <a name="python"/>
 
