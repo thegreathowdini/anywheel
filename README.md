@@ -60,7 +60,7 @@ The advantage of this last method is that it not only allows you to save your to
 Now to put the script to work.
 
 ##### Buy pass
-In 2022, anywheel updated their app and raised the price for pass redemption. At the beginning of the year we could get a 1-day pass for 100 points and a 7-day pass for 200 points. After the update it became 300 points for a 1-day pass and 500 points for a 3-day pass. This script allows you to redeem passes at the old rate. Use the argument 'o' to redeem a 1-day pass once (I assume you'll never want to redeem a 1-day pass more than once, since if you have 200 points you might as well get a 7-day pass). Put a positive integer as the argument to redeem a 7-day pass that number of times. Put 0 as the argument to redeem 7-day passes until you have less than 200 points.
+In 2022, anywheel updated their app and raised the price for pass redemption. At the beginning of the year we could get a 1-day pass for 100 points and a 7-day pass for 200 points. After the update it became 300 points for a 1-day pass and 500 points for a 3-day pass. This script allows you to redeem passes at the old rate. Use the argument 'o' to redeem a 1-day pass for 100 points once (I assume you'll never want to redeem a 1-day pass more than once, since if you have 200 points you might as well get a 7-day pass). Put a positive integer as the argument to redeem a 7-day pass for 200 points that number of times. Put 0 as the argument to redeem 7-day passes until you have less than 200 points.
 
 ##### Account information
 Use the argument 'p' as above to see your point total. Use 'u' to see your user info, and 'h' to see information about your recent trip history.
