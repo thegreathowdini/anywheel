@@ -7,7 +7,7 @@ If you can run python scripts in your machine, it's most convenient to use [anyw
 ### Alternatives
 One alternative is to use the notebook, which you can either [download](anywheel.ipynb) or run from [Google Colab](https://colab.research.google.com/drive/1m0o6RYJmMoLG2Mzl7RHIGr0YojsdAke9). The notebook itself has usage instructions, but if you need more help you can look at the [step-by-step instructions](ipynb-instructions.pdf).
 
-For windows users, a limited number of script functions have been written as [commands you run from Powershell](powershell.md). For Linux/Mac users, something I plan to do in future is to translate the PS commands to Bash.
+For windows users, a limited number of script functions have been written as commands you can run from [Powershell](powershell.md). For Linux/Mac users, something I plan to do in future is to translate the PS commands to Bash.
 
 <hr />
 <a name="python"/>
