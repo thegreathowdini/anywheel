@@ -1,8 +1,6 @@
 # powershell
 
-Here are four commands intended to be run on windows [powershell](#PS). If you don't already have a valid token, the [first two commands](#tokengen) generate one. With a valid token, the [third command](#daily) performs check-in and trip-sharing for your account, and the fourth buys a 7-day pass for 200 points.
-
-<a name="PS"/>
+Here are four commands intended to be run on windows powershell. If you don't already have a valid token, the [first two commands](#tokengen) generate one. With a valid token, the [third command](#daily) performs check-in and trip-sharing for your account, and the fourth buys a 7-day pass for 200 points.
 
 ### how to start powershell
 Press Windows+X. In the menu that appears, choose 'Windows Powershell'.
