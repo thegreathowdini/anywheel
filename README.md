@@ -1,14 +1,18 @@
-# Anywheel
+# anywheel
 
-### READ THIS FIRST
-**It is in our best interest not to share the contents of this repo widely for now.** If you're going cycling with us and using anywheel, you're welcome to avail yourself of the resources here, which will help you get as much out of the app as we know how to. In some cases, the benefits we derive depend on unintended features of the app, and we can enjoy them only for as long as those features aren't patched. The likelihood and imminence of patches is lower if the relevant features are not widely exploited.
+In this repo are scripts intended to help us do things in anywheel more cheaply or conveniently. **It is in our best interest not to share the contents of this repo widely.** In some cases, the scripts depend on unintended features of the app, and we have their benefits only for as long as those features aren't patched. The likelihood and imminence of patches is lower if the relevant features are not widely exploited.
 
-### What are you here for?
-If you're new to anywheel or want instructions on how to use the app, see the [guide](first-steps.pdf) we've prepared.
+If you can run python scripts in your machine, it's most convenient to use [anywheel.py](anywheel.py), the instructions for which are [below](#python). Otherwise, you can try the
 
-Otherwise, you're probably here for the scripts. If you can run python scripts in your machine, it's most convenient to use the [.py script](anywheel.py), the instructions for which are [here](#python). The alternative is to use the notebook, which you can either [download](anywheel.ipynb) or run from [Google Colab](https://colab.research.google.com/drive/1m0o6RYJmMoLG2Mzl7RHIGr0YojsdAke9). The notebook itself has usage instructions, but if you need more help with you can look at the [step-by-step instructions](ipynb-instructions.pdf)
+### Alternatives
+One alternative is to use the notebook, which you can either [download](anywheel.ipynb) or run from [Google Colab](https://colab.research.google.com/drive/1m0o6RYJmMoLG2Mzl7RHIGr0YojsdAke9). The notebook itself has usage instructions, but if you need more help you can look at the [step-by-step instructions](ipynb-instructions.pdf).
 
+For windows users, a limited number of script functions have been written as [commands you run from Powershell](powershell.md). For Linux/Mac users, something I plan to do in future is to translate the PS commands to Bash.
+
+<hr />
 <a name="python"/>
+
+## anywheel.py
 
 ### Setup
 Download the script [here](anywheel.py). The script depends on the python [requests library](https://pypi.org/project/requests/), so make sure you've installed that. If you think you're all set, run the script without arguments. if you see the help message, you're good to go.
@@ -70,5 +74,3 @@ While farming points in anywheel you will want to check in and share trips daily
 
 ##### Trip data lookup
 The app contains an [IDOR](https://portswigger.net/web-security/access-control/idor) vulnerability that allows users to see information about trips made by other users (the presentation layer implies that this information isn't intended to be available). It's not a high-impact vulnerability since it's not personal data or anything like that being exposed, but I just thought it's interesting to note and wrote this part of the script as a proof of concept for it. Run the script with the argument 'l' (lowercase L) followed by the ids of the trips you want to see.
-
-One day when I no longer want to do the above more useful things, and if I'm feeling nice, I might tell anywheel about this.
