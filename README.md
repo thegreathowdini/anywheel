@@ -1,8 +1,26 @@
 # anywheel
 
-In this repo are scripts intended to help us do things in anywheel more cheaply or conveniently. **It is in our best interest not to share the contents of this repo widely.** In some cases, the scripts depend on unintended features of the app, and we have their benefits only for as long as those features aren't patched. The likelihood and imminence of patches is lower if the relevant features are not widely exploited.
+In this repo are scripts for exploiting vulnerabilities found in Anywheel < 2.4.1.
 
-If you can run python scripts in your machine, it's most convenient to use [anywheel.py](anywheel.py), the instructions for which are [below](#python). Otherwise, you can try the
+### Vulnerabilities
+Anywheel < 2.4.1 contained the following vulnerabilities that could be exploited in conjunction to allow users to use the app more cheaply or conveniently.
+
+1. **Lack of SSL certificate pinning** [vulnerable as of v2.4.1]. The client app does not verify the SSL certificate of the remote endpoint, allowing users to insert a proxy in an MITM position and examine app traffic. This allowed users to retrieve their authentication tokens and probe the server to discover further vulnerabilities.
+
+2. **Unencrypted app traffic** [partially patched in v2.3.7, fully patched in v2.4.1]. Traffic sent from the client app was unencrypted, allowing users to examine and tamper with app data. In Anywheel < 2.3.7, login traffic was unencrypted, allowing users to request OTPs and, given a valid OTP, generate authentication tokens without using the app. In v2.3.7, login traffic was encrypted, but traffic from other parts of the app were still in the clear.
+
+3. **Logic flaw** [patched in v2.2.4]. Anywheel <= 2.2.3 allowed users to redeem 7-day passes for 200 points. The points system allowed users to attain 40 points a day for as long as they are on a pass. Users with 200 points can extend their pass validity indefinitely without cost. In v2.2.4, 7-day passes can no longer be redeemed.
+
+4. **Excessive trust in untrusted data** [yet to verify]. The server read the client app version off the 'X-Atayun-Version' header and behaved accordingly, allowing users to recover functionality from outdated versions of the app. By setting the value of the 'X-Atayun-Version' header to '2.2.3', users could redeem 7-day passes for 200 points and exploit the previous vulnerability.
+
+5. **Insecure direct object reference** [patched in v2.4.1]. By modifying the tripId parameter in requests to /lock/trip/path, users could see information about trips made by other users.
+
+
+### anywheel.py
+Anywheel.py is 
+
+
+
 
 ### Alternatives
 One alternative is to use the notebook, which you can either [download](anywheel.ipynb) or run from [Google Colab](https://colab.research.google.com/drive/1m0o6RYJmMoLG2Mzl7RHIGr0YojsdAke9). The notebook itself has usage instructions, but if you need more help you can look at the [step-by-step instructions](ipynb-instructions.pdf).
@@ -12,10 +30,7 @@ For windows users, a limited number of script functions have been written as com
 <hr />
 <a name="python"/>
 
-## anywheel.py
 
-### Setup
-Download the script [here](anywheel.py). The script depends on the python [requests library](https://pypi.org/project/requests/), so make sure you've installed that. If you think you're all set, run the script without arguments. if you see the help message, you're good to go.
 
 ### Functions
 Run the script without arguments to see the help message, which enumerates the script's functions
