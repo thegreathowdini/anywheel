@@ -8,11 +8,11 @@ cache = {
 ########## CODE ##########
 import requests,json,sys,time,re
 
-functions = ['p','c','s','d','o','l','g','h','u']
+functions = ['p','c','s','d','o','l','g','h','u','n']
 
 def usage(): 
   usage = '''usage:
-anywheel g mobiles*\t\tgenerate valid token for mobile numbers. requires OTP
+anywheel g mobiles*\t\tsubmit OTP for token generation
 anywheel u [tokens*|all]\tsee user data
 anywheel p [tokens*|all]\tsee current point total
 anywheel c [tokens*|all]\tcheck in
@@ -21,6 +21,7 @@ anywheel d [tokens*|all]\tcheck in and share trip
 anywheel h [tokens*|all]\tview last 10 trips
 anywheel o [tokens*|all]\tbuy one day pass
 anywheel # [tokens*|all]\tbuy seven day pass # times
+anywheel n [tokens*|all]\tbuy $1 coupon
 anywheel l [token] tripids*\tlookup trip data
   '''
   print(usage)
@@ -42,7 +43,7 @@ h = {
     'X-Atayun-Os':'0',
     'Content-Type':'application/json',
     'Authorization':'Basic YW55d2hlZWw6TXNId3lPMDB5S0RhMzlCeU0=',
-    'X-Atayun-Version':'2.2.3',
+    'X-Atayun-Version':'2.3.7',
     'X-Atayun-Api-Version':'10',
     'Accept':'*/*',
     'X-Atayun-Network':'0',
@@ -50,11 +51,28 @@ h = {
     'Accept-Encoding':'gzip, deflate',
     'X-Atayun-Screen':'750x1334',
     'X-Atayun-Brand':'iPhone SE (2nd generation)',
-    'User-Agent':'Anywheel/2.2.3 (iPhone; iOS 15.5; Scale/2.00)',
-    'X-Atayun-Versioncode':'267'
+    'User-Agent':'Anywheel/2.3.7 (iPhone; iOS 15.5; Scale/2.00)',
+    'X-Atayun-Versioncode':'354'
 }
 
 ### token generation ###
+# request OTP
+def request(m):
+    r = json.loads(requests.post('https://appgw.justscoot.com/noAuth/login/captcha','{"type":1,"cc":"65","mobile":"%s"}'%m,headers=h).text)
+    if r['msg'] == 'Your verification code has been sent.': 
+        print('OTP sent to %s'%m)
+        return True
+    elif r['msg'] == 'Sms verification failed, please try again in 10 Minutes.':
+        print('OTP requested too recently for %s. try again in 10 mins'%m)
+        return False
+    elif r['msg'] == 'Incorrect format of mobile phone number.':
+        print('mobile number in incorrect format: %s'%m)
+        return False
+    else: 
+        print('something went wrong for %s. server response: %s'%(m,r))
+        return False
+
+# main process
 if sys.argv[1] == 'g':
     for m in set(sys.argv[2:]):
         print('')
@@ -64,23 +82,17 @@ if sys.argv[1] == 'g':
             print('mobile number in incorrect format: %s'%m)
             continue
         
-        # request OTP
-        r = json.loads(requests.post('https://appgw.justscoot.com/noAuth/login/captcha','{"type":1,"cc":"65","mobile":"%s"}'%m,headers=h).text)
-        if r['msg'] == 'Your verification code has been sent.': print('OTP sent to %s'%m)
-        elif r['msg'] == 'Sms verification failed, please try again in 10 Minutes.':
-            print('OTP requested too recently for %s. try again in 10 mins'%m)
-            continue
-        elif r['msg'] == 'Incorrect format of mobile phone number.':
-            print('mobile number in incorrect format: %s'%m)
-            continue
-        else: 
-            print('something went wrong for %s. server response: %s'%(m,r))
-            continue
+        # request OTP (not working as of version 2.3.7)
+        #if not request(m): continue
             
         while 1:
             # OTP input validation
             while 1:
-                t = input('input OTP sent to %s (quit to continue): '%m)
+                t = input('input OTP sent to %s: '%m)
+                #if t == 'again':
+                #    print('')
+                #    if request(m): continue
+                #    else: t = 'quit'
                 if t == 'quit' or t == 'exit': break
                 try: 
                     assert len(t) == 4 and int(t)
@@ -112,6 +124,7 @@ def validate_token(t):
 
 if 'all' in gather: gather += cache.keys()
 valid_tokens = {}
+
 for i,t in enumerate(set(gather)): 
     if t == 'all': continue
     if t in cache:
@@ -167,6 +180,7 @@ def checkin(t):
 # buy pass
 def buy(t,code=4):
     h['X-Atayun-Token'] = t
+    if code != 1: h['X-Atayun-Version'] = '2.2.3'; h['X-Atayun-Versioncode'] = '267'; h['User-Agent'] = 'Anywheel/2.2.3 (iPhone; iOS 15.5; Scale/2.00)'
     json.loads(requests.post('https://appgw.justscoot.com/event/challenges/points/redeem','{"reward":"%s"}'%code,headers=h).text)
     
 # user profile
@@ -219,9 +233,17 @@ for t in valid_tokens:
         if valid_tokens[t]['points'] < 100: 
             print('%s: insufficient points for one day pass (currently have %s)'%(t,valid_tokens[t]['points']))
             continue
+        buy(valid_tokens[t]['token'],3)
+        print('%s: redeemed one day pass. new pass validity: %s hours\n'%(t,int((user(valid_tokens[t]['token'])[2] - time.time()*1000)//(1000*3600))))
+ 
+    # $1 coupon
+    elif sys.argv[1] == 'n':
+        if valid_tokens[t]['points'] < 50: 
+            print('%s: insufficient points for coupon (currently have %s)'%(t,valid_tokens[t]['points']))
+            continue
         buy(valid_tokens[t]['token'],1)
-        print('%s: redeemed one day pass. new pass validity: %s\n'%(t,(user(valid_tokens[t]['token'])[2] - time.time()*1000)//(1000*3600)))
-    
+        print('%s: bought coupon\n'%t)
+     
     # seven day pass
     else:
         n = int(sys.argv[1])
@@ -232,4 +254,4 @@ for t in valid_tokens:
         print('%s: current point total %s'%(t,valid_tokens[t]['points']))
         buy(valid_tokens[t]['token'])
         for i in range(n): print('%s: redeemed seven day pass %s/%s times'%(t,i+1,n))
-        print('%s: done! new pass validity: %s\n'%(t,(user(valid_tokens[t]['token'])[2] - time.time()*1000)//(1000*3600)))
+        print('%s: done! new pass validity: %s hours\n'%(t,int((user(valid_tokens[t]['token'])[2] - time.time()*1000)//(1000*3600))))
