@@ -11,7 +11,7 @@ Anywheel < 2.4.1 contained the following vulnerabilities that could be exploited
 
 3. **Logic flaw** [patched in v2.2.4]. Anywheel <= 2.2.3 allowed users to redeem 7-day passes for 200 points. The points system allowed users to attain 40 points a day for as long as they are on a pass. Users with 200 points can thus extend their pass validity indefinitely without cost. In v2.2.4, 7-day passes can no longer be redeemed.
 
-4. **Excessive trust in client-side data** [patched in v2.4.1]. The server read the client app version off the 'X-Atayun-Version' header and behaved accordingly, allowing users to recover functionality from outdated versions of the app. By setting the value of the 'X-Atayun-Version' header to '2.2.3', users could redeem 7-day passes for 200 points and exploit the previous vulnerability.
+4. **Excessive trust in client-side data** [patched in v2.4.1]. The server read the client app version off the 'X-Atayun-Version' header and behaved accordingly, allowing users to recover functionality from outdated versions of the app. By setting the value of the 'X-Atayun-Version' header to '2.2.3', users could redeem 7-day passes for 200 points and exploit the previous vulnerability while using updated versions of the app.
 
 5. **Insecure direct object reference** [patched in v2.4.1]. By modifying the tripId parameter in requests to /lock/trip/path, users could see information about trips made by other users.
 
