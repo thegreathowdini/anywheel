@@ -5,7 +5,7 @@ In this repo are scripts for exploiting some vulnerabilities found in Anywheel <
 ### Vulnerabilities
 Anywheel < 2.4.1 contained the following vulnerabilities that could be exploited in conjunction to allow users to use the app more cheaply or conveniently.
 
-0.. **Lack of SSL certificate pinning** [vulnerable as of v2.4.1]. The client app does not verify the SSL certificate of the remote endpoint, allowing users to insert a proxy in an MITM position and examine app traffic. This allowed users to retrieve their authentication tokens and probe the server to discover further vulnerabilities.
+0. **Lack of SSL certificate pinning** [vulnerable as of v2.4.1]. The client app does not verify the SSL certificate of the remote endpoint, allowing users to insert a proxy in an MITM position and examine app traffic. This allowed users to retrieve their authentication tokens and probe the server to discover further vulnerabilities.
 
 1. **Unencrypted app traffic** [partially patched in v2.3.7, fully patched in v2.4.1]. Traffic sent from the client app was unencrypted, allowing users to examine and tamper with app data. In Anywheel < 2.3.7, login traffic was unencrypted, allowing users to request OTPs and, given a valid OTP, generate authentication tokens without using the app. In v2.3.7, login traffic was encrypted, but traffic from other parts of the app were still in the clear.
 
